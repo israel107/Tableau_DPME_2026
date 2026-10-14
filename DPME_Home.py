@@ -355,6 +355,7 @@ with tab_1_data:
 # ============================================================
 
 df_updated = st.session_state.df_updated
+buffer = io.BytesIO()
 
 
 # ============================================================
@@ -362,7 +363,7 @@ df_updated = st.session_state.df_updated
 # ============================================================
 
 if st.session_state.fichiers_traites:
-    buffer = io.BytesIO()
+    
     df_updated = st.session_state.df_updated
 
     st.markdown('##### Présentation des données cumulées')
@@ -395,7 +396,8 @@ if st.session_state.fichiers_traites:
                 st.error(f"Erreur : {e}")
 
     with col2:
-        st.download_button("Télécharger les données cumulées", data= df_updated, file_name="situation_financiere.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        st.download_button("Télécharger les données cumulées", data= buffer.getvalue(), 
+                           file_name="situation_financiere.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     
 # st.download_button(
 #     label="📥 Télécharger les données en excel",
