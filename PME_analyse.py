@@ -19,7 +19,7 @@ T_montant_idx = montant_idx.transpose()
 # CHARGER LE FICHIER CUMULATIF DEPUIS GITHUB
 # ============================================================
 
-def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO):
+def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO, BRANCH):
 
     token = st.secrets["GITHUB_TOKEN"]
 
