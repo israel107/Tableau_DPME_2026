@@ -392,6 +392,13 @@ if st.session_state.fichiers_traites:
         except Exception as e:
             st.error(f"Erreur : {e}")
 
+    
+    st.download_button(
+        "Télécharger les données cumulées",
+        data=buffer.getvalue(),
+        file_name="situation_financiere.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    
 # st.download_button(
 #     label="📥 Télécharger les données en excel",
 #     data=df_updated,
