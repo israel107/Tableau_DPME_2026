@@ -357,16 +357,16 @@ if st.session_state.fichiers_traites:
     # #
     if st.button("Enregistrer"):
 
-        # Enregistrer toujours sous le même nom
-        st.session_state.df_updated.to_excel(
-            FICHIER_CUMULATIF,
-            index=False
-        )
+        try:
+            lien = pa.enregistrer_sur_github(
+                st.session_state.df_updated, OWNER, BRANCH, CHEMIN
+            )
     
-        st.success(
-            "Données enregistrées dans : "
-            + FICHIER_CUMULATIF
-        )
+            st.success("Fichier Excel enregistré sur GitHub.")
+            st.markdown(f"[Consulter le fichier]({lien})")
+    
+        except Exception as e:
+            st.error(f"Erreur : {e}")
 
 # st.download_button(
 #     label="📥 Télécharger les données en excel",
