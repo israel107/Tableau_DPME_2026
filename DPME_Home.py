@@ -397,7 +397,7 @@ if st.session_state.fichiers_traites:
     with col2:
         st.download_button(
             "Télécharger les données cumulées",
-            data=buffer.getvalue(),
+            data= df_updated,
             file_name="situation_financiere.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     
