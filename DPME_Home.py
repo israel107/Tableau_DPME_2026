@@ -362,7 +362,7 @@ df_updated = st.session_state.df_updated
 # ============================================================
 
 if st.session_state.fichiers_traites:
-
+    buffer = io.BytesIO()
     df_updated = st.session_state.df_updated
 
     st.markdown('##### Présentation des données cumulées')
