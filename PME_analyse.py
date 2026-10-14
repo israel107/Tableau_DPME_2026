@@ -21,7 +21,7 @@ T_montant_idx = montant_idx.transpose()
 
 def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO, BRANCH):
 
-    token = st.secrets["GITHUB_TOKEN"]
+    token = st.secrets["DB_TOKEN"]
 
     url = (
         f"https://api.github.com/repos/{OWNER}/{REPO}"
