@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
 from datetime import datetime 
+import base64
+import io
+import streamlit as st
+import requests
 
 
 df_PME_benef = pd.read_excel('./files/Stats SAE_PME.xlsx', sheet_name='PME_Benef')
