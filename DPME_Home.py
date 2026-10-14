@@ -371,7 +371,7 @@ if st.session_state.fichiers_traites:
     st.data_editor(
         df_updated,
         height= 200,
-        use_container_width= True
+        width="stretch"
     )
 
     st.success(
