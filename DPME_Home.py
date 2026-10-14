@@ -362,7 +362,7 @@ if st.session_state.fichiers_traites:
                 st.session_state.df_updated, OWNER, BRANCH, CHEMIN
             )
     
-            st.success("Fichier Excel enregistré sur GitHub.")
+            st.success("Fichier Excel enregistré dans /data")
             st.markdown(f"[Consulter le fichier]({lien})")
     
         except Exception as e:
