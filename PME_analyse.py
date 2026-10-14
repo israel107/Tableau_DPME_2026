@@ -19,43 +19,6 @@ T_montant_idx = montant_idx.transpose()
 # CHARGER LE FICHIER CUMULATIF DEPUIS GITHUB
 # ============================================================
 
-@st.cache_data(ttl=3600, show_spinner="Chargement des données...")
-def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO, BRANCH):
-
-    token = st.secrets["DB_TOKEN"]
-
-    url = (
-        f"https://api.github.com/repos/{OWNER}/{REPO}"
-        f"/contents/{CHEMIN_GITHUB}"
-    )
-
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Accept": "application/vnd.github+json",
-        "X-GitHub-Api-Version": "2022-11-28"
-    }
-
-   reponse = requests.get(
-        url,
-        headers=headers,
-        params={"ref": BRANCH},
-        timeout=30
-    )
-
-    if reponse.status_code == 404:
-        return pd.read_excel(FICHIER_INITIAL)
-
-    reponse.raise_for_status()
-
-    url_telechargement = reponse.json()["download_url"]
-
-    fichier = requests.get(
-        url_telechargement,
-        timeout=60
-    )
-    fichier.raise_for_status()
-
-    return pd.read_excel(io.BytesIO(fichier.content))
 
 
 # --------------------------------------------------------------
