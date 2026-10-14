@@ -57,8 +57,6 @@ def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO, BRANCH):
 
     return pd.read_excel(io.BytesIO(fichier.content))
 
-    return df
-
 
 # --------------------------------------------------------------
 # Fonction Git pour Créer le fichier excel
