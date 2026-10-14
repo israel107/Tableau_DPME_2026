@@ -397,7 +397,7 @@ if st.session_state.fichiers_traites:
 
     with col2:
         st.download_button("Télécharger les données cumulées", data= buffer.getvalue(), 
-                           file_name="situation_financiere.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                           file_name="situation_financiere.xlsx", mime="text/xlsx")
     
 # st.download_button(
 #     label="📥 Télécharger les données en excel",
