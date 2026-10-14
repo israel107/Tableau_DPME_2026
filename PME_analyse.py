@@ -15,7 +15,7 @@ T_montant_idx = montant_idx.transpose()
 # --------------------------------------------------------------
 
 def enregistrer_sur_github(df, OWNER, BRANCH, CHEMIN):
-    token = st.secrets["GITHUB_TOKEN"]
+    token = st.secrets["DB_TOKEN"]
 
     # Créer le fichier Excel en mémoire
     buffer = io.BytesIO()
