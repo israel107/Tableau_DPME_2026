@@ -17,6 +17,15 @@ st.image("./pays_uemoa_png.png", caption="", use_container_width=False)
 st.markdown("_DABFA-SFE v0.0.1_")
 
 # -------------------------------
+# Paramètres GIT
+# -------------------------------
+
+OWNER = "israel107"
+REPO = "Tableau_DPME_2026"
+BRANCH = "main"
+CHEMIN = "data/situation_financiere.xlsx"
+
+# -------------------------------
 # CSS Sheet
 # -------------------------------
 
