@@ -14,6 +14,74 @@ df_montant_accordes = pd.read_excel('./files/Stats SAE_PME.xlsx', sheet_name='Mo
 montant_idx = df_montant_accordes.set_index(['pays'])
 T_montant_idx = montant_idx.transpose()
 
+
+# ============================================================
+# CHARGER LE FICHIER CUMULATIF DEPUIS GITHUB
+# ============================================================
+
+def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO, CHEMIN_GITHUB):
+
+    token = st.secrets["GITHUB_TOKEN"]
+
+    url = (
+        f"https://api.github.com/repos/{OWNER}/{REPO}"
+        f"/contents/{CHEMIN_GITHUB}"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+    }
+
+    # Vérifier si le fichier cumulatif existe sur GitHub
+    reponse = requests.get(
+        url,
+        headers=headers,
+        params={"ref": BRANCH},
+        timeout=30
+    )
+
+    if reponse.status_code == 200:
+
+        # Récupérer l'URL de téléchargement du fichier
+        url_telechargement = reponse.json()["download_url"]
+
+        fichier = requests.get(
+            url_telechargement,
+            headers=headers,
+            timeout=60
+        )
+
+        fichier.raise_for_status()
+
+        # Lire le fichier Excel directement en mémoire
+        df = pd.read_excel(
+            io.BytesIO(fichier.content)
+        )
+
+        st.success("Fichier cumulatif chargé depuis GitHub.")
+
+    elif reponse.status_code == 404:
+
+        # Premier lancement : charger le fichier initial
+        df = pd.read_excel(FICHIER_INITIAL)
+
+        st.info(
+            "Aucun fichier cumulatif trouvé sur GitHub. "
+            "Chargement du fichier initial."
+        )
+
+    else:
+
+        raise RuntimeError(
+            f"Erreur lors de la lecture GitHub : "
+            f"{reponse.status_code} - {reponse.text}"
+        )
+
+    return df
+
+
 # --------------------------------------------------------------
 # Fonction Git pour Créer le fichier excel
 # --------------------------------------------------------------
