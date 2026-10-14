@@ -63,7 +63,7 @@ def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO, BRANCH):
 
     reponse = requests.get(url, headers=headers, params={"ref": BRANCH}, timeout=30)
     
-    reponse.status_code == 404:
+    if reponse.status_code == 404:
         return pd.read_excel(FICHIER_INITIAL)
 
     reponse.raise_for_status()
