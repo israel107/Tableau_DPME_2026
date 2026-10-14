@@ -19,6 +19,7 @@ T_montant_idx = montant_idx.transpose()
 # CHARGER LE FICHIER CUMULATIF DEPUIS GITHUB
 # ============================================================
 
+@st.cache_data(ttl=3600, show_spinner="Chargement des données...")
 def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO, BRANCH):
 
     token = st.secrets["DB_TOKEN"]
@@ -34,50 +35,27 @@ def charger_donnees(CHEMIN_GITHUB, FICHIER_INITIAL, OWNER, REPO, BRANCH):
         "X-GitHub-Api-Version": "2022-11-28"
     }
 
-    # Vérifier si le fichier cumulatif existe sur GitHub
-    reponse = requests.get(
+   reponse = requests.get(
         url,
         headers=headers,
         params={"ref": BRANCH},
         timeout=30
     )
 
-    if reponse.status_code == 200:
+    if reponse.status_code == 404:
+        return pd.read_excel(FICHIER_INITIAL)
 
-        # Récupérer l'URL de téléchargement du fichier
-        url_telechargement = reponse.json()["download_url"]
+    reponse.raise_for_status()
 
-        fichier = requests.get(
-            url_telechargement,
-            headers=headers,
-            timeout=60
-        )
+    url_telechargement = reponse.json()["download_url"]
 
-        fichier.raise_for_status()
+    fichier = requests.get(
+        url_telechargement,
+        timeout=60
+    )
+    fichier.raise_for_status()
 
-        # Lire le fichier Excel directement en mémoire
-        df = pd.read_excel(
-            io.BytesIO(fichier.content)
-        )
-
-        st.success("Fichier cumulatif chargé depuis GitHub.")
-
-    elif reponse.status_code == 404:
-
-        # Premier lancement : charger le fichier initial
-        df = pd.read_excel(FICHIER_INITIAL)
-
-        st.info(
-            "Aucun fichier cumulatif trouvé sur GitHub. "
-            "Chargement du fichier initial."
-        )
-
-    else:
-
-        raise RuntimeError(
-            f"Erreur lors de la lecture GitHub : "
-            f"{reponse.status_code} - {reponse.text}"
-        )
+    return pd.read_excel(io.BytesIO(fichier.content))
 
     return df
 
