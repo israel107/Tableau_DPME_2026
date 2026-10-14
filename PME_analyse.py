@@ -73,19 +73,6 @@ def enregistrer_sur_github(df, OWNER, BRANCH, CHEMIN):
     return reponse.json()["content"]["html_url"]
 
 
-if st.button("Enregistrer"):
-    try:
-        lien = enregistrer_sur_github(
-            st.session_state.df_updated
-        )
-
-        st.success("Fichier Excel enregistré sur GitHub.")
-        st.markdown(f"[Consulter le fichier]({lien})")
-
-    except Exception as e:
-        st.error(f"Erreur : {e}")
-
-
 # --------------------------------------------------------------
 # OBTENIR Cumul Crédit (All Instru) du Pays selectionné par mois par année
 # --------------------------------------------------------------
