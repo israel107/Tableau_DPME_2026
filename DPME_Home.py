@@ -387,7 +387,7 @@ if st.session_state.fichiers_traites:
             )
             charger_donnees.clear()
             st.success("Fichier Excel enregistré dans /data")
-            st.markdown(f"[Consulter le fichier]({lien})")
+            
     
         except Exception as e:
             st.error(f"Erreur : {e}")
