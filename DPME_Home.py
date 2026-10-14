@@ -47,7 +47,7 @@ FICHIER_INITIAL = "./files/situation financiere_data_2019.xlsx"
 FICHIER_CUMULATIF = "./data/situation_financiere.xlsx"
 
 
-df_2019 = pa.charger_donnees(CHEMIN ,FICHIER_INITIAL, OWNER, REPO)
+df_2019 = pa.charger_donnees(CHEMIN ,FICHIER_INITIAL, OWNER, REPO, BRANCH)
 
 df_2019["New_Arrete"] = pd.to_datetime( df_2019["Arrete"], dayfirst=True, errors="coerce")
 
