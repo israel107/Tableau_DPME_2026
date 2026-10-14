@@ -9,6 +9,7 @@ import chart as ch
 import numpy as np
 from datetime import datetime
 import hashlib
+import requests
 pd.set_option("styler.render.max_elements", 2174640)
 
 st.set_page_config(page_title="DPME", page_icon="📈", layout="wide")
