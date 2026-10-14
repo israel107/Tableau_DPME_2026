@@ -11,6 +11,82 @@ montant_idx = df_montant_accordes.set_index(['pays'])
 T_montant_idx = montant_idx.transpose()
 
 # --------------------------------------------------------------
+# Fonction Git pour Créer le fichier excel
+# --------------------------------------------------------------
+
+def enregistrer_sur_github(df, OWNER, BRANCH, CHEMIN):
+    token = st.secrets["GITHUB_TOKEN"]
+
+    # Créer le fichier Excel en mémoire
+    buffer = io.BytesIO()
+    df.to_excel(buffer, index=False, engine="openpyxl")
+    contenu = base64.b64encode(
+        buffer.getvalue()
+    ).decode("utf-8")
+
+    url = (
+        f"https://api.github.com/repos/{OWNER}/{REPO}"
+        f"/contents/{CHEMIN}"
+    )
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+    }
+
+    # Vérifier si le fichier existe déjà
+    reponse = requests.get(
+        url,
+        headers=headers,
+        params={"ref": BRANCH},
+        timeout=30
+    )
+
+    donnees = {
+        "message": "Mise à jour des données financières",
+        "content": contenu,
+        "branch": BRANCH
+    }
+
+    if reponse.status_code == 200:
+        donnees["sha"] = reponse.json()["sha"]
+    elif reponse.status_code != 404:
+        raise RuntimeError(
+            f"Lecture GitHub impossible : {reponse.text}"
+        )
+
+    # Créer ou remplacer le fichier
+    reponse = requests.put(
+        url,
+        headers=headers,
+        json=donnees,
+        timeout=60
+    )
+
+    if reponse.status_code not in (200, 201):
+        raise RuntimeError(
+            f"Enregistrement GitHub impossible : "
+            f"{reponse.status_code} - {reponse.text}"
+        )
+
+    return reponse.json()["content"]["html_url"]
+
+
+if st.button("Enregistrer"):
+    try:
+        lien = enregistrer_sur_github(
+            st.session_state.df_updated
+        )
+
+        st.success("Fichier Excel enregistré sur GitHub.")
+        st.markdown(f"[Consulter le fichier]({lien})")
+
+    except Exception as e:
+        st.error(f"Erreur : {e}")
+
+
+# --------------------------------------------------------------
 # OBTENIR Cumul Crédit (All Instru) du Pays selectionné par mois par année
 # --------------------------------------------------------------
 
