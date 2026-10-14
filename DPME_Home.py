@@ -46,15 +46,8 @@ FICHIER_INITIAL = "./files/situation financiere_data_2019.xlsx"
 
 FICHIER_CUMULATIF = "./data/situation_financiere.xlsx"
 
-# Créer le dossier s'il n'existe pas
-# os.makedirs("./data", exist_ok=True)
 
-# Charger le fichier cumulatif s'il existe,
-# sinon charger le fichier initial
-if os.path.exists(FICHIER_CUMULATIF):
-    df_2019 = load_data(FICHIER_CUMULATIF)
-else:
-    df_2019 = load_data(FICHIER_INITIAL)
+df_2019 = pa.charger_donnees(CHEMIN ,FICHIER_INITIAL, OWNER, REPO)
 
 df_2019["New_Arrete"] = pd.to_datetime( df_2019["Arrete"], dayfirst=True, errors="coerce")
 
