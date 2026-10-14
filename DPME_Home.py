@@ -354,7 +354,7 @@ if st.session_state.fichiers_traites:
             lien = pa.enregistrer_sur_github(
                 st.session_state.df_updated, OWNER, BRANCH, CHEMIN, REPO
             )
-    
+            charger_donnees.clear()
             st.success("Fichier Excel enregistré dans /data")
             st.markdown(f"[Consulter le fichier]({lien})")
     
