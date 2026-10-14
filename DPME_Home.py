@@ -379,25 +379,27 @@ if st.session_state.fichiers_traites:
     )
 
     # #
-    if st.button("Enregistrer"):
-
-        try:
-            lien = pa.enregistrer_sur_github(
-                st.session_state.df_updated, OWNER, BRANCH, CHEMIN, REPO
-            )
-            charger_donnees.clear()
-            st.success("Fichier Excel enregistré dans /data")
-            
+    col1, col2 = st.columns(2, gap="small")
+    with col1:
+        if st.button("Enregistrer"):
     
-        except Exception as e:
-            st.error(f"Erreur : {e}")
+            try:
+                lien = pa.enregistrer_sur_github(
+                    st.session_state.df_updated, OWNER, BRANCH, CHEMIN, REPO
+                )
+                charger_donnees.clear()
+                st.success("Fichier Excel enregistré dans /data")
+                
+        
+            except Exception as e:
+                st.error(f"Erreur : {e}")
 
-    
-    st.download_button(
-        "Télécharger les données cumulées",
-        data=buffer.getvalue(),
-        file_name="situation_financiere.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    with col2:
+        st.download_button(
+            "Télécharger les données cumulées",
+            data=buffer.getvalue(),
+            file_name="situation_financiere.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     
 # st.download_button(
 #     label="📥 Télécharger les données en excel",
