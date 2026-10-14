@@ -359,7 +359,7 @@ if st.session_state.fichiers_traites:
 
         try:
             lien = pa.enregistrer_sur_github(
-                st.session_state.df_updated, OWNER, BRANCH, CHEMIN
+                st.session_state.df_updated, OWNER, BRANCH, CHEMIN, REPO
             )
     
             st.success("Fichier Excel enregistré dans /data")
